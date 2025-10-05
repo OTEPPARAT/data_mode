@@ -1,0 +1,1 @@
+UPDATE videos SET is_published = 0 WHERE title = 'TEST1 EX';

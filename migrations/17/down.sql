@@ -1,0 +1,3 @@
+-- Rollback: ไม่สามารถกู้คืนข้อมูลที่ลบได้ แต่สามารถสร้างใหม่ได้
+INSERT OR IGNORE INTO packages (name, description, package_type, price_min, price_max, duration_days, features, data_sources, is_active, display_order) VALUES
+('Smart Researcher', 'การวิเคราะห์ข้อมูลพื้นฐานพร้อมรายงานสรุป', 'one_time', 2000000, 4000000, 2, '["สืบค้นข้อมูลพื้นฐาน", "สรุปประเด็นสำคัญ", "วิเคราะห์แนวโน้มเบื้องต้น"]', '["ข้อมูลสาธารณะทั่วไป", "บทความวิชาการเปิดเผย"]', 1, 1);

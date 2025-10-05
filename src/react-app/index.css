@@ -1,0 +1,1726 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Poppins, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 100;
+}
+
+body {
+  font-weight: 100;
+}
+
+* {
+  font-weight: 100 !important;
+}
+
+@keyframes borderGlow {
+  0% {
+    transform: rotate(0deg);
+    filter: hue-rotate(0deg);
+  }
+  25% {
+    filter: hue-rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    filter: hue-rotate(180deg);
+  }
+  75% {
+    filter: hue-rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes colorShift {
+  0% {
+    background: conic-gradient(from 0deg, #f472b6, #06b6d4, #f472b6, #06b6d4, #f472b6, #06b6d4);
+  }
+  50% {
+    background: conic-gradient(from 180deg, #06b6d4, #f472b6, #06b6d4, #f472b6, #06b6d4, #f472b6);
+  }
+  100% {
+    background: conic-gradient(from 360deg, #f472b6, #06b6d4, #f472b6, #06b6d4, #f472b6, #06b6d4);
+  }
+}
+
+@keyframes logoSpin {
+  0% {
+    transform: rotateZ(0deg) rotateY(0deg) rotateX(0deg);
+  }
+  25% {
+    transform: rotateZ(90deg) rotateY(90deg) rotateX(15deg);
+  }
+  50% {
+    transform: rotateZ(180deg) rotateY(180deg) rotateX(0deg);
+  }
+  75% {
+    transform: rotateZ(270deg) rotateY(270deg) rotateX(-15deg);
+  }
+  100% {
+    transform: rotateZ(360deg) rotateY(360deg) rotateX(0deg);
+  }
+}
+
+.logo-spin {
+  animation: logoSpin 20s linear infinite;
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 0 20px rgba(6, 182, 212, 0.5)) 
+          drop-shadow(0 0 40px rgba(244, 114, 182, 0.3))
+          drop-shadow(10px 10px 30px rgba(0, 0, 0, 0.4))
+          drop-shadow(-5px -5px 20px rgba(255, 255, 255, 0.07));
+  perspective: 1000px;
+}
+
+/* 3D Hexagonal Container - Force 3D acceleration on all devices */
+.hexagonal-3d-container {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  transform-style: preserve-3d;
+  perspective: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+  /* Force hardware acceleration on mobile */
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-perspective: 1200px;
+  -moz-perspective: 1200px;
+  -ms-perspective: 1200px;
+  -o-perspective: 1200px;
+  /* Prevent visual glitches on mobile */
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+  /* Ensure rendering on mobile */
+  will-change: transform;
+}
+
+@media (min-width: 375px) {
+  .hexagonal-3d-container {
+    width: 380px;
+    height: 380px;
+    perspective: 1400px;
+    -webkit-perspective: 1400px;
+    -moz-perspective: 1400px;
+    -ms-perspective: 1400px;
+    -o-perspective: 1400px;
+  }
+}
+
+@media (min-width: 640px) {
+  .hexagonal-3d-container {
+    width: 480px;
+    height: 480px;
+    perspective: 1800px;
+    -webkit-perspective: 1800px;
+    -moz-perspective: 1800px;
+    -ms-perspective: 1800px;
+    -o-perspective: 1800px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hexagonal-3d-container {
+    width: 600px;
+    height: 600px;
+    perspective: 2200px;
+    -webkit-perspective: 2200px;
+    -moz-perspective: 2200px;
+    -ms-perspective: 2200px;
+    -o-perspective: 2200px;
+  }
+}
+
+@keyframes hexagonSpin {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: rotateX(5deg) rotateY(90deg) rotateZ(90deg);
+  }
+  50% {
+    transform: rotateX(0deg) rotateY(180deg) rotateZ(180deg);
+  }
+  75% {
+    transform: rotateX(-5deg) rotateY(270deg) rotateZ(270deg);
+  }
+  100% {
+    transform: rotateX(0deg) rotateY(360deg) rotateZ(360deg);
+  }
+}
+
+@keyframes hexagonSelfSpin {
+  0% {
+    transform: rotateZ(0deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg) rotateY(360deg);
+  }
+}
+
+@keyframes hexagonVerticalSpin {
+  0% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotateX(360deg);
+  }
+}
+
+.hexagon-face {
+  position: absolute;
+  width: 85px;
+  height: 85px;
+  background: transparent;
+  border: 1px solid;
+  backdrop-filter: blur(2.5px) saturate(120%);
+  -webkit-backdrop-filter: blur(2.5px) saturate(120%);
+  box-shadow: 
+    inset 0 0 0 1px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.014),
+    inset 1px 0 0 rgba(255, 255, 255, 0.021),
+    inset -1px 0 0 rgba(255, 255, 255, 0.007),
+    inset 0 0 8px rgba(0, 0, 0, 0.2),
+    0 0 80px rgba(255, 255, 255, 0.014),
+    0 4px 16px rgba(0, 0, 0, 0.02),
+    0 8px 32px rgba(0, 0, 0, 0.01),
+    0 0 150px rgba(6, 182, 212, 0.03),
+    0 0 250px rgba(6, 182, 212, 0.02);
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  -webkit-clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  opacity: 1;
+  /* Force visibility on mobile */
+  display: block !important;
+  visibility: visible !important;
+  /* Hardware acceleration */
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+@media (min-width: 375px) {
+  .hexagon-face {
+    width: 105px;
+    height: 105px;
+  }
+}
+
+@media (min-width: 640px) {
+  .hexagon-face {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hexagon-face {
+    width: 170px;
+    height: 170px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hexagon-face {
+    width: 280px;
+    height: 280px;
+  }
+}
+
+.hexagon-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    /* Black gradient overlay from 1% to 10% opacity */
+    linear-gradient(to right, rgba(0, 0, 0, 0.21) 0%, rgba(0, 0, 0, 0.3) 100%),
+    /* Edge darkening for glass effect */
+    linear-gradient(to center, rgba(0, 0, 0, 0.6) 0%, transparent 15%),
+    radial-gradient(ellipse at top, rgba(0, 0, 0, 0.6) 0%, transparent 20%),
+    radial-gradient(ellipse at bottom, rgba(0, 0, 0, 0.6) 0%, transparent 20%),
+    radial-gradient(ellipse at left, rgba(0, 0, 0, 0.6) 0%, transparent 20%),
+    radial-gradient(ellipse at right, rgba(0, 0, 0, 0.6) 0%, transparent 20%),
+    /* Glass highlights */
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.056) 0%, transparent 40%),
+    radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.042) 0%, transparent 40%),
+    radial-gradient(circle at 25% 75%, rgba(255, 255, 255, 0.035) 0%, transparent 40%),
+    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.056) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.021) 0%, transparent 50%),
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.07) 0%, 
+      transparent 20%, 
+      transparent 80%, 
+      rgba(255, 255, 255, 0.056) 100%),
+    linear-gradient(45deg, 
+      transparent 30%, 
+      rgba(255, 255, 255, 0.042) 40%, 
+      rgba(255, 255, 255, 0.07) 50%, 
+      rgba(255, 255, 255, 0.042) 60%, 
+      transparent 70%),
+    linear-gradient(-45deg, 
+      rgba(255, 255, 255, 0.014) 0%, 
+      rgba(255, 255, 255, 0.056) 30%, 
+      transparent 60%);
+  border-radius: 18px;
+}
+
+@keyframes glassShine {
+  0%, 100% {
+    background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%, 0% 0%, 0% 0%;
+    opacity: 0.2;
+  }
+  25% {
+    background-position: 50% 50%, 50% 50%, 50% 50%, 50% 50%, 25% 25%, 25% 25%;
+    opacity: 0.4;
+  }
+  50% {
+    background-position: 100% 100%, 0% 100%, 100% 0%, 0% 0%, 50% 50%, 50% 50%;
+    opacity: 0.3;
+  }
+  75% {
+    background-position: 0% 50%, 100% 50%, 0% 50%, 100% 50%, 75% 75%, 75% 75%;
+    opacity: 0.4;
+  }
+}
+
+/* Individual Hexagon Rotation Animations */
+@keyframes hexSpin1 { 0% { transform: rotateZ(0deg) rotateY(0deg); } 100% { transform: rotateZ(360deg) rotateY(360deg); } }
+@keyframes hexSpin2 { 0% { transform: rotateZ(15deg) rotateY(15deg); } 100% { transform: rotateZ(375deg) rotateY(375deg); } }
+@keyframes hexSpin3 { 0% { transform: rotateZ(30deg) rotateY(30deg); } 100% { transform: rotateZ(390deg) rotateY(390deg); } }
+@keyframes hexSpin4 { 0% { transform: rotateZ(45deg) rotateY(45deg); } 100% { transform: rotateZ(405deg) rotateY(405deg); } }
+@keyframes hexSpin5 { 0% { transform: rotateZ(60deg) rotateY(60deg); } 100% { transform: rotateZ(420deg) rotateY(420deg); } }
+@keyframes hexSpin6 { 0% { transform: rotateZ(75deg) rotateY(75deg); } 100% { transform: rotateZ(435deg) rotateY(435deg); } }
+@keyframes hexSpin7 { 0% { transform: rotateZ(90deg) rotateY(90deg); } 100% { transform: rotateZ(450deg) rotateY(450deg); } }
+@keyframes hexSpin8 { 0% { transform: rotateZ(105deg) rotateY(105deg); } 100% { transform: rotateZ(465deg) rotateY(465deg); } }
+@keyframes hexSpin9 { 0% { transform: rotateZ(120deg) rotateY(120deg); } 100% { transform: rotateZ(480deg) rotateY(480deg); } }
+@keyframes hexSpin10 { 0% { transform: rotateZ(135deg) rotateY(135deg); } 100% { transform: rotateZ(495deg) rotateY(495deg); } }
+@keyframes hexSpin11 { 0% { transform: rotateZ(150deg) rotateY(150deg); } 100% { transform: rotateZ(510deg) rotateY(510deg); } }
+@keyframes hexSpin12 { 0% { transform: rotateZ(165deg) rotateY(165deg); } 100% { transform: rotateZ(525deg) rotateY(525deg); } }
+@keyframes hexSpin13 { 0% { transform: rotateZ(180deg) rotateY(180deg); } 100% { transform: rotateZ(540deg) rotateY(540deg); } }
+@keyframes hexSpin14 { 0% { transform: rotateZ(195deg) rotateY(195deg); } 100% { transform: rotateZ(555deg) rotateY(555deg); } }
+@keyframes hexSpin15 { 0% { transform: rotateZ(210deg) rotateY(210deg); } 100% { transform: rotateZ(570deg) rotateY(570deg); } }
+@keyframes hexSpin16 { 0% { transform: rotateZ(225deg) rotateY(225deg); } 100% { transform: rotateZ(585deg) rotateY(585deg); } }
+@keyframes hexSpin17 { 0% { transform: rotateZ(240deg) rotateY(240deg); } 100% { transform: rotateZ(600deg) rotateY(600deg); } }
+@keyframes hexSpin18 { 0% { transform: rotateZ(255deg) rotateY(255deg); } 100% { transform: rotateZ(615deg) rotateY(615deg); } }
+@keyframes hexSpin19 { 0% { transform: rotateZ(270deg) rotateY(270deg); } 100% { transform: rotateZ(630deg) rotateY(630deg); } }
+@keyframes hexSpin20 { 0% { transform: rotateZ(285deg) rotateY(285deg); } 100% { transform: rotateZ(645deg) rotateY(645deg); } }
+@keyframes hexSpin21 { 0% { transform: rotateZ(300deg) rotateY(300deg); } 100% { transform: rotateZ(660deg) rotateY(660deg); } }
+@keyframes hexSpin22 { 0% { transform: rotateZ(315deg) rotateY(315deg); } 100% { transform: rotateZ(675deg) rotateY(675deg); } }
+@keyframes hexSpin23 { 0% { transform: rotateZ(330deg) rotateY(330deg); } 100% { transform: rotateZ(690deg) rotateY(690deg); } }
+@keyframes hexSpin24 { 0% { transform: rotateZ(345deg) rotateY(345deg); } 100% { transform: rotateZ(705deg) rotateY(705deg); } }
+@keyframes hexSpin25 { 0% { transform: rotateZ(0deg) rotateY(0deg); } 100% { transform: rotateZ(360deg) rotateY(360deg); } }
+@keyframes hexSpin26 { 0% { transform: rotateZ(15deg) rotateY(15deg); } 100% { transform: rotateZ(375deg) rotateY(375deg); } }
+@keyframes hexSpin27 { 0% { transform: rotateZ(30deg) rotateY(30deg); } 100% { transform: rotateZ(390deg) rotateY(390deg); } }
+@keyframes hexSpin28 { 0% { transform: rotateZ(45deg) rotateY(45deg); } 100% { transform: rotateZ(405deg) rotateY(405deg); } }
+
+/* Sphere Formation - Hexagons arranged as a 3D ball around logo */
+.hexagon-sphere-main {
+  transform: translate(-50%, -50%) translateZ(80px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  -webkit-transform: translate(-50%, -50%) translateZ(80px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  -moz-transform: translate(-50%, -50%) translateZ(80px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  -ms-transform: translate(-50%, -50%) translateZ(80px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  -o-transform: translate(-50%, -50%) translateZ(80px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  background: rgba(6, 182, 212, 0.03375);
+  border: 2px solid transparent;
+  border-image: linear-gradient(135deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.0025) 50%, rgba(0, 0, 0, 0.055) 100%) 1;
+  z-index: 520;
+  width: 85px;
+  height: 85px;
+  transform-origin: center center;
+  -webkit-transform-origin: center center;
+  -moz-transform-origin: center center;
+  -ms-transform-origin: center center;
+  -o-transform-origin: center center;
+  top: 50%;
+  left: 50%;
+  /* Mobile fallback styling - transparent only */
+  border: 1px solid rgba(255, 255, 255, 0.03) !important;
+  background: transparent !important;
+}
+
+@media (min-width: 375px) {
+  .hexagon-sphere-main {
+    transform: translate(-50%, -50%) translateZ(100px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    width: 105px;
+    height: 105px;
+  }
+}
+
+@media (min-width: 640px) {
+  .hexagon-sphere-main {
+    transform: translate(-50%, -50%) translateZ(140px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hexagon-sphere-main {
+    transform: translate(-50%, -50%) translateZ(170px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    width: 170px;
+    height: 170px;
+  }
+}
+
+.hexagon-sphere-orbit2 {
+  transform: translate(-50%, -50%) translateZ(-100px) rotateX(180deg) rotateY(0deg) rotateZ(0deg);
+  -webkit-transform: translate(-50%, -50%) translateZ(-100px) rotateX(180deg) rotateY(0deg) rotateZ(0deg);
+  -moz-transform: translate(-50%, -50%) translateZ(-100px) rotateX(180deg) rotateY(0deg) rotateZ(0deg);
+  -ms-transform: translate(-50%, -50%) translateZ(-100px) rotateX(180deg) rotateY(0deg) rotateZ(0deg);
+  -o-transform: translate(-50%, -50%) translateZ(-100px) rotateX(180deg) rotateY(0deg) rotateZ(0deg);
+  background: rgba(6, 182, 212, 0.03);
+  border: 2px solid transparent;
+  border-image: linear-gradient(45deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.0025) 50%, rgba(0, 0, 0, 0.055) 100%) 1;
+  z-index: 580;
+  width: 105px;
+  height: 105px;
+  transform-origin: center center;
+  -webkit-transform-origin: center center;
+  -moz-transform-origin: center center;
+  -ms-transform-origin: center center;
+  -o-transform-origin: center center;
+  top: 50%;
+  left: 50%;
+  /* Mobile fallback styling - transparent only */
+  border: 1px solid rgba(255, 255, 255, 0.03) !important;
+  background: transparent !important;
+}
+
+@media (min-width: 640px) {
+  .hexagon-sphere-orbit2 {
+    transform: translate(-50%, -50%) translateZ(-140px) rotateX(180deg) rotateY(0deg) rotateZ(0deg);
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hexagon-sphere-orbit2 {
+    transform: translate(-50%, -50%) translateZ(-170px) rotateX(180deg) rotateY(0deg) rotateZ(0deg);
+    width: 170px;
+    height: 170px;
+  }
+}
+
+.hexagon-sphere-orbit3 {
+  transform: translate(-50%, -50%) translateZ(0px) rotateX(90deg) rotateY(0deg) rotateZ(0deg);
+  -webkit-transform: translate(-50%, -50%) translateZ(0px) rotateX(90deg) rotateY(0deg) rotateZ(0deg);
+  background: rgba(6, 182, 212, 0.0255);
+  border: 1px solid rgba(255, 255, 255, 0.01) !important;
+  background: rgba(6, 182, 212, 0.0255) !important;
+  z-index: 480;
+  width: 105px;
+  height: 105px;
+  transform-origin: center center;
+  -webkit-transform-origin: center center;
+  top: 50%;
+  left: 50%;
+}
+
+@media (min-width: 640px) {
+  .hexagon-sphere-orbit3 {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hexagon-sphere-orbit3 {
+    width: 170px;
+    height: 170px;
+  }
+}
+
+.hexagon-sphere-orbit4 {
+  transform: translate(-50%, -50%) translateZ(0px) rotateX(-90deg) rotateY(0deg) rotateZ(0deg);
+  -webkit-transform: translate(-50%, -50%) translateZ(0px) rotateX(-90deg) rotateY(0deg) rotateZ(0deg);
+  background: rgba(6, 182, 212, 0.021);
+  border: 1px solid rgba(255, 255, 255, 0.01) !important;
+  background: rgba(6, 182, 212, 0.021) !important;
+  z-index: 600;
+  width: 105px;
+  height: 105px;
+  transform-origin: center center;
+  -webkit-transform-origin: center center;
+  top: 50%;
+  left: 50%;
+}
+
+@media (min-width: 640px) {
+  .hexagon-sphere-orbit4 {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hexagon-sphere-orbit4 {
+    width: 170px;
+    height: 170px;
+  }
+}
+
+.hexagon-sphere-orbit5 {
+  transform: translate(-50%, -50%) translateZ(80px) rotateX(45deg) rotateY(45deg) rotateZ(0deg);
+  -webkit-transform: translate(-50%, -50%) translateZ(80px) rotateX(45deg) rotateY(45deg) rotateZ(0deg);
+  background: rgba(6, 182, 212, 0.02325);
+  border: 1px solid rgba(255, 255, 255, 0.01) !important;
+  background: rgba(6, 182, 212, 0.02325) !important;
+  z-index: 460;
+  width: 105px;
+  height: 105px;
+  transform-origin: center center;
+  -webkit-transform-origin: center center;
+  top: 50%;
+  left: 50%;
+}
+
+@media (min-width: 640px) {
+  .hexagon-sphere-orbit5 {
+    transform: translate(-50%, -50%) translateZ(100px) rotateX(45deg) rotateY(45deg) rotateZ(0deg);
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hexagon-sphere-orbit5 {
+    transform: translate(-50%, -50%) translateZ(130px) rotateX(45deg) rotateY(45deg) rotateZ(0deg);
+    width: 170px;
+    height: 170px;
+  }
+}
+
+.hexagon-sphere-orbit6 {
+  transform: translate(-50%, -50%) translateZ(80px) rotateX(45deg) rotateY(-45deg) rotateZ(0deg);
+  -webkit-transform: translate(-50%, -50%) translateZ(80px) rotateX(45deg) rotateY(-45deg) rotateZ(0deg);
+  background: rgba(6, 182, 212, 0.0195);
+  border: 1px solid rgba(255, 255, 255, 0.01) !important;
+  background: rgba(6, 182, 212, 0.0195) !important;
+  z-index: 540;
+  width: 105px;
+  height: 105px;
+  transform-origin: center center;
+  -webkit-transform-origin: center center;
+  top: 50%;
+  left: 50%;
+}
+
+@media (min-width: 640px) {
+  .hexagon-sphere-orbit6 {
+    transform: translate(-50%, -50%) translateZ(100px) rotateX(45deg) rotateY(-45deg) rotateZ(0deg);
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hexagon-sphere-orbit6 {
+    transform: translate(-50%, -50%) translateZ(130px) rotateX(45deg) rotateY(-45deg) rotateZ(0deg);
+    width: 170px;
+    height: 170px;
+  }
+}
+
+.hexagon-sphere-orbit7 {
+  transform: translate(-50%, -50%) translateZ(-80px) rotateX(-45deg) rotateY(45deg) rotateZ(0deg);
+  -webkit-transform: translate(-50%, -50%) translateZ(-80px) rotateX(-45deg) rotateY(45deg) rotateZ(0deg);
+  background: rgba(6, 182, 212, 0.02775);
+  border: 1px solid rgba(255, 255, 255, 0.01) !important;
+  background: rgba(6, 182, 212, 0.02775) !important;
+  z-index: 440;
+  width: 105px;
+  height: 105px;
+  transform-origin: center center;
+  -webkit-transform-origin: center center;
+  top: 50%;
+  left: 50%;
+}
+
+@media (min-width: 640px) {
+  .hexagon-sphere-orbit7 {
+    transform: translate(-50%, -50%) translateZ(-100px) rotateX(-45deg) rotateY(45deg) rotateZ(0deg);
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hexagon-sphere-orbit7 {
+    transform: translate(-50%, -50%) translateZ(-130px) rotateX(-45deg) rotateY(45deg) rotateZ(0deg);
+    width: 170px;
+    height: 170px;
+  }
+}
+
+.hexagon-sphere-orbit8 {
+  transform: translate(-50%, -50%) translateZ(-80px) rotateX(-45deg) rotateY(-45deg) rotateZ(0deg);
+  -webkit-transform: translate(-50%, -50%) translateZ(-80px) rotateX(-45deg) rotateY(-45deg) rotateZ(0deg);
+  background: rgba(6, 182, 212, 0.0005);
+  border: 1px solid rgba(255, 255, 255, 0.01) !important;
+  background: rgba(6, 182, 212, 0.0005) !important;
+  z-index: 430;
+  width: 105px;
+  height: 105px;
+  transform-origin: center center;
+  -webkit-transform-origin: center center;
+  top: 50%;
+  left: 50%;
+}
+
+@media (min-width: 640px) {
+  .hexagon-sphere-orbit8 {
+    transform: translate(-50%, -50%) translateZ(-100px) rotateX(-45deg) rotateY(-45deg) rotateZ(0deg);
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hexagon-sphere-orbit8 {
+    transform: translate(-50%, -50%) translateZ(-130px) rotateX(-45deg) rotateY(-45deg) rotateZ(0deg);
+    width: 170px;
+    height: 170px;
+  }
+}
+
+.logo-in-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 40px rgba(6, 182, 212, 0.7)) 
+          drop-shadow(0 0 80px rgba(244, 114, 182, 0.56))
+          drop-shadow(0 15px 60px rgba(0, 0, 0, 0.8))
+          drop-shadow(0 0 120px rgba(255, 255, 255, 0.147));
+  -webkit-filter: drop-shadow(0 0 40px rgba(6, 182, 212, 0.7)) 
+                  drop-shadow(0 0 80px rgba(244, 114, 182, 0.56))
+                  drop-shadow(0 15px 60px rgba(0, 0, 0, 0.8))
+                  drop-shadow(0 0 120px rgba(255, 255, 255, 0.147));
+  z-index: 1000;
+  transform-origin: center center;
+  -webkit-transform-origin: center center;
+  -moz-transform-origin: center center;
+  -ms-transform-origin: center center;
+  -o-transform-origin: center center;
+  /* Ensure high visibility and proper centering on mobile */
+  display: block !important;
+  visibility: visible !important;
+  will-change: transform;
+  /* Force proper positioning on all devices */
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+@keyframes logoSyncRotation {
+  0% {
+    transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) rotateX(90deg) rotateY(90deg) rotateZ(90deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotateX(180deg) rotateY(180deg) rotateZ(180deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) rotateX(270deg) rotateY(270deg) rotateZ(270deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+  }
+}
+
+/* Hexagon Center-based Spin Animations - Same center point, different planes */
+@keyframes hexagonCenterSpin1 {
+  0% {
+    transform: translate(-50%, -50%) translateZ(-200px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(100px) rotateX(45deg) rotateY(45deg) rotateZ(90deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(200px) rotateX(0deg) rotateY(0deg) rotateZ(180deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(0px) rotateX(-45deg) rotateY(-45deg) rotateZ(270deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateZ(-200px) rotateX(0deg) rotateY(0deg) rotateZ(360deg);
+  }
+}
+
+@keyframes hexagonCenterSpin2 {
+  0% {
+    transform: translate(-50%, -50%) translateZ(250px) rotateX(30deg) rotateY(60deg) rotateZ(45deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(0px) rotateX(-15deg) rotateY(105deg) rotateZ(135deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-250px) rotateX(30deg) rotateY(60deg) rotateZ(225deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(50px) rotateX(75deg) rotateY(15deg) rotateZ(315deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateZ(250px) rotateX(30deg) rotateY(60deg) rotateZ(405deg);
+  }
+}
+
+@keyframes hexagonCenterSpin3 {
+  0% {
+    transform: translate(-50%, -50%) translateZ(-180px) rotateX(-30deg) rotateY(30deg) rotateZ(90deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(0px) rotateX(60deg) rotateY(120deg) rotateZ(180deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(180px) rotateX(-30deg) rotateY(30deg) rotateZ(270deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-50px) rotateX(30deg) rotateY(-60deg) rotateZ(360deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateZ(-180px) rotateX(-30deg) rotateY(30deg) rotateZ(450deg);
+  }
+}
+
+@keyframes hexagonCenterSpin4 {
+  0% {
+    transform: translate(-50%, -50%) translateZ(300px) rotateX(60deg) rotateY(-30deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-50px) rotateX(-30deg) rotateY(90deg) rotateZ(90deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-300px) rotateX(60deg) rotateY(-30deg) rotateZ(180deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(0px) rotateX(0deg) rotateY(-150deg) rotateZ(270deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateZ(300px) rotateX(60deg) rotateY(-30deg) rotateZ(360deg);
+  }
+}
+
+@keyframes hexagonCenterSpin5 {
+  0% {
+    transform: translate(-50%, -50%) translateZ(-220px) rotateX(45deg) rotateY(90deg) rotateZ(135deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(0px) rotateX(-60deg) rotateY(30deg) rotateZ(225deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(220px) rotateX(45deg) rotateY(90deg) rotateZ(315deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-100px) rotateX(90deg) rotateY(-45deg) rotateZ(405deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateZ(-220px) rotateX(45deg) rotateY(90deg) rotateZ(495deg);
+  }
+}
+
+@keyframes hexagonCenterSpin6 {
+  0% {
+    transform: translate(-50%, -50%) translateZ(150px) rotateX(-45deg) rotateY(-60deg) rotateZ(30deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-100px) rotateX(30deg) rotateY(45deg) rotateZ(120deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-150px) rotateX(-45deg) rotateY(-60deg) rotateZ(210deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(0px) rotateX(75deg) rotateY(0deg) rotateZ(300deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateZ(150px) rotateX(-45deg) rotateY(-60deg) rotateZ(390deg);
+  }
+}
+
+@keyframes hexagonCenterSpin7 {
+  0% {
+    transform: translate(-50%, -50%) translateZ(-270px) rotateX(75deg) rotateY(-45deg) rotateZ(60deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(0px) rotateX(-30deg) rotateY(75deg) rotateZ(150deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(270px) rotateX(75deg) rotateY(-45deg) rotateZ(240deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-80px) rotateX(15deg) rotateY(-90deg) rotateZ(330deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateZ(-270px) rotateX(75deg) rotateY(-45deg) rotateZ(420deg);
+  }
+}
+
+/* Card Float Animations */
+@keyframes cardFloat1 {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    box-shadow: 0 20px 40px rgba(6, 182, 212, 0.3), 
+                0 0 60px rgba(6, 182, 212, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  25% {
+    transform: translateY(-8px) translateX(2px);
+    box-shadow: 0 25px 50px rgba(6, 182, 212, 0.4), 
+                0 0 80px rgba(6, 182, 212, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+  50% {
+    transform: translateY(-5px) translateX(-3px);
+    box-shadow: 0 30px 60px rgba(6, 182, 212, 0.35), 
+                0 0 100px rgba(6, 182, 212, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+  75% {
+    transform: translateY(-10px) translateX(1px);
+    box-shadow: 0 35px 70px rgba(6, 182, 212, 0.45), 
+                0 0 120px rgba(6, 182, 212, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  }
+}
+
+@keyframes cardFloat2 {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    box-shadow: 0 20px 40px rgba(244, 114, 182, 0.3), 
+                0 0 60px rgba(244, 114, 182, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  25% {
+    transform: translateY(-6px) translateX(-2px);
+    box-shadow: 0 25px 50px rgba(244, 114, 182, 0.4), 
+                0 0 80px rgba(244, 114, 182, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+  50% {
+    transform: translateY(-12px) translateX(3px);
+    box-shadow: 0 30px 60px rgba(244, 114, 182, 0.35), 
+                0 0 100px rgba(244, 114, 182, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+  75% {
+    transform: translateY(-4px) translateX(-1px);
+    box-shadow: 0 35px 70px rgba(244, 114, 182, 0.45), 
+                0 0 120px rgba(244, 114, 182, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  }
+}
+
+@keyframes cardFloat3 {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3), 
+                0 0 60px rgba(139, 92, 246, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  25% {
+    transform: translateY(-10px) translateX(3px);
+    box-shadow: 0 25px 50px rgba(139, 92, 246, 0.4), 
+                0 0 80px rgba(139, 92, 246, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+  50% {
+    transform: translateY(-2px) translateX(-2px);
+    box-shadow: 0 30px 60px rgba(139, 92, 246, 0.35), 
+                0 0 100px rgba(139, 92, 246, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+  75% {
+    transform: translateY(-7px) translateX(1px);
+    box-shadow: 0 35px 70px rgba(139, 92, 246, 0.45), 
+                0 0 120px rgba(139, 92, 246, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  }
+}
+
+@keyframes cardFloat4 {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    box-shadow: 0 20px 40px rgba(6, 182, 212, 0.3), 
+                0 0 60px rgba(6, 182, 212, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  25% {
+    transform: translateY(-4px) translateX(-3px);
+    box-shadow: 0 25px 50px rgba(6, 182, 212, 0.4), 
+                0 0 80px rgba(6, 182, 212, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+  50% {
+    transform: translateY(-9px) translateX(2px);
+    box-shadow: 0 30px 60px rgba(6, 182, 212, 0.35), 
+                0 0 100px rgba(6, 182, 212, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+  75% {
+    transform: translateY(-11px) translateX(-1px);
+    box-shadow: 0 35px 70px rgba(6, 182, 212, 0.45), 
+                0 0 120px rgba(6, 182, 212, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  }
+}
+
+/* Card Float Classes */
+.card-float-1 {
+  animation: cardFloat1 8s ease-in-out infinite;
+}
+
+.card-float-2 {
+  animation: cardFloat2 9s ease-in-out infinite 2s;
+}
+
+.card-float-3 {
+  animation: cardFloat3 7s ease-in-out infinite 1s;
+}
+
+.card-float-4 {
+  animation: cardFloat4 8.5s ease-in-out infinite 3s;
+}
+
+/* Orbital Animations Around Logo Center */
+@keyframes orbitAroundLogo1 { 0% { transform: translateZ(400px) rotateX(0deg) rotateY(0deg) rotateZ(0deg); } 100% { transform: translateZ(400px) rotateX(0deg) rotateY(0deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo2 { 0% { transform: translateZ(400px) rotateX(0deg) rotateY(60deg) rotateZ(0deg); } 100% { transform: translateZ(400px) rotateX(0deg) rotateY(60deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo3 { 0% { transform: translateZ(400px) rotateX(0deg) rotateY(120deg) rotateZ(0deg); } 100% { transform: translateZ(400px) rotateX(0deg) rotateY(120deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo4 { 0% { transform: translateZ(400px) rotateX(0deg) rotateY(180deg) rotateZ(0deg); } 100% { transform: translateZ(400px) rotateX(0deg) rotateY(180deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo5 { 0% { transform: translateZ(400px) rotateX(0deg) rotateY(240deg) rotateZ(0deg); } 100% { transform: translateZ(400px) rotateX(0deg) rotateY(240deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo6 { 0% { transform: translateZ(400px) rotateX(0deg) rotateY(300deg) rotateZ(0deg); } 100% { transform: translateZ(400px) rotateX(0deg) rotateY(300deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo7 { 0% { transform: translateZ(450px) rotateX(15deg) rotateY(30deg) rotateZ(0deg); } 100% { transform: translateZ(450px) rotateX(15deg) rotateY(30deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo8 { 0% { transform: translateZ(450px) rotateX(15deg) rotateY(90deg) rotateZ(0deg); } 100% { transform: translateZ(450px) rotateX(15deg) rotateY(90deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo9 { 0% { transform: translateZ(450px) rotateX(15deg) rotateY(150deg) rotateZ(0deg); } 100% { transform: translateZ(450px) rotateX(15deg) rotateY(150deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo10 { 0% { transform: translateZ(450px) rotateX(15deg) rotateY(210deg) rotateZ(0deg); } 100% { transform: translateZ(450px) rotateX(15deg) rotateY(210deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo11 { 0% { transform: translateZ(450px) rotateX(-15deg) rotateY(270deg) rotateZ(0deg); } 100% { transform: translateZ(450px) rotateX(-15deg) rotateY(270deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo12 { 0% { transform: translateZ(450px) rotateX(-15deg) rotateY(330deg) rotateZ(0deg); } 100% { transform: translateZ(450px) rotateX(-15deg) rotateY(330deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo13 { 0% { transform: translateZ(500px) rotateX(10deg) rotateY(15deg) rotateZ(0deg); } 100% { transform: translateZ(500px) rotateX(10deg) rotateY(15deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo14 { 0% { transform: translateZ(500px) rotateX(10deg) rotateY(75deg) rotateZ(0deg); } 100% { transform: translateZ(500px) rotateX(10deg) rotateY(75deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo15 { 0% { transform: translateZ(500px) rotateX(10deg) rotateY(135deg) rotateZ(0deg); } 100% { transform: translateZ(500px) rotateX(10deg) rotateY(135deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo16 { 0% { transform: translateZ(500px) rotateX(10deg) rotateY(195deg) rotateZ(0deg); } 100% { transform: translateZ(500px) rotateX(10deg) rotateY(195deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo17 { 0% { transform: translateZ(500px) rotateX(10deg) rotateY(255deg) rotateZ(0deg); } 100% { transform: translateZ(500px) rotateX(10deg) rotateY(255deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo18 { 0% { transform: translateZ(500px) rotateX(10deg) rotateY(315deg) rotateZ(0deg); } 100% { transform: translateZ(500px) rotateX(10deg) rotateY(315deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo19 { 0% { transform: translateZ(500px) rotateX(-10deg) rotateY(45deg) rotateZ(0deg); } 100% { transform: translateZ(500px) rotateX(-10deg) rotateY(45deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo20 { 0% { transform: translateZ(500px) rotateX(-10deg) rotateY(105deg) rotateZ(0deg); } 100% { transform: translateZ(500px) rotateX(-10deg) rotateY(105deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo21 { 0% { transform: translateZ(500px) rotateX(-10deg) rotateY(165deg) rotateZ(0deg); } 100% { transform: translateZ(500px) rotateX(-10deg) rotateY(165deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo22 { 0% { transform: translateZ(500px) rotateX(-10deg) rotateY(225deg) rotateZ(0deg); } 100% { transform: translateZ(500px) rotateX(-10deg) rotateY(225deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo23 { 0% { transform: translateZ(500px) rotateX(-10deg) rotateY(285deg) rotateZ(0deg); } 100% { transform: translateZ(500px) rotateX(-10deg) rotateY(285deg) rotateZ(360deg); } }
+@keyframes orbitAroundLogo24 { 0% { transform: translateZ(500px) rotateX(-10deg) rotateY(345deg) rotateZ(0deg); } 100% { transform: translateZ(500px) rotateX(-10deg) rotateY(345deg) rotateZ(360deg); } }
+
+/* Symmetrical Hexagon Rotation Animations */
+@keyframes hexRotate1 {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateZ(-80px) rotateY(90deg) rotateX(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-85px) rotateY(95deg) rotateX(5deg) rotateZ(90deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-75px) rotateY(85deg) rotateX(-5deg) rotateZ(180deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-88px) rotateY(98deg) rotateX(8deg) rotateZ(270deg);
+  }
+}
+
+@keyframes hexRotate2 {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateZ(-80px) rotateY(135deg) rotateX(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-82px) rotateY(138deg) rotateX(3deg) rotateZ(85deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-78px) rotateY(132deg) rotateX(-3deg) rotateZ(170deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-85px) rotateY(140deg) rotateX(6deg) rotateZ(255deg);
+  }
+}
+
+@keyframes hexRotate3 {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateZ(-80px) rotateY(180deg) rotateX(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-77px) rotateY(183deg) rotateX(-4deg) rotateZ(120deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-83px) rotateY(177deg) rotateX(4deg) rotateZ(240deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-79px) rotateY(185deg) rotateX(-2deg) rotateZ(360deg);
+  }
+}
+
+@keyframes hexRotate4 {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateZ(-120px) rotateY(225deg) rotateX(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-125px) rotateY(230deg) rotateX(5deg) rotateZ(90deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-115px) rotateY(220deg) rotateX(-5deg) rotateZ(180deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-128px) rotateY(235deg) rotateX(8deg) rotateZ(270deg);
+  }
+}
+
+@keyframes hexRotate5 {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateZ(-120px) rotateY(270deg) rotateX(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-122px) rotateY(275deg) rotateX(3deg) rotateZ(110deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-118px) rotateY(265deg) rotateX(-3deg) rotateZ(220deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-125px) rotateY(280deg) rotateX(6deg) rotateZ(330deg);
+  }
+}
+
+@keyframes hexRotate6 {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateZ(-120px) rotateY(315deg) rotateX(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-117px) rotateY(318deg) rotateX(-4deg) rotateZ(75deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-123px) rotateY(312deg) rotateX(4deg) rotateZ(150deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-119px) rotateY(320deg) rotateX(-2deg) rotateZ(225deg);
+  }
+}
+
+@keyframes hexRotate7 {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateZ(-160px) rotateY(22.5deg) rotateX(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-165px) rotateY(27deg) rotateX(5deg) rotateZ(95deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-155px) rotateY(18deg) rotateX(-5deg) rotateZ(190deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-168px) rotateY(30deg) rotateX(8deg) rotateZ(285deg);
+  }
+}
+
+@keyframes hexRotate8 {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateZ(-160px) rotateY(67.5deg) rotateX(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-162px) rotateY(72deg) rotateX(3deg) rotateZ(80deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-158px) rotateY(63deg) rotateX(-3deg) rotateZ(160deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-165px) rotateY(75deg) rotateX(6deg) rotateZ(240deg);
+  }
+}
+
+@keyframes hexRotate9 {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateZ(-160px) rotateY(112.5deg) rotateX(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-157px) rotateY(116deg) rotateX(-4deg) rotateZ(105deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-163px) rotateY(109deg) rotateX(4deg) rotateZ(210deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-159px) rotateY(118deg) rotateX(-2deg) rotateZ(315deg);
+  }
+}
+
+@keyframes hexRotate10 {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateZ(-160px) rotateY(157.5deg) rotateX(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-165px) rotateY(162deg) rotateX(5deg) rotateZ(85deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-155px) rotateY(153deg) rotateX(-5deg) rotateZ(170deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-168px) rotateY(165deg) rotateX(8deg) rotateZ(255deg);
+  }
+}
+
+@keyframes hexRotate11 {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateZ(-160px) rotateY(202.5deg) rotateX(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-162px) rotateY(207deg) rotateX(3deg) rotateZ(125deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-158px) rotateY(198deg) rotateX(-3deg) rotateZ(250deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-165px) rotateY(210deg) rotateX(6deg) rotateZ(375deg);
+  }
+}
+
+@keyframes hexRotate12 {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateZ(-160px) rotateY(247.5deg) rotateX(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-157px) rotateY(251deg) rotateX(-4deg) rotateZ(90deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-163px) rotateY(244deg) rotateX(4deg) rotateZ(180deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-159px) rotateY(253deg) rotateX(-2deg) rotateZ(270deg);
+  }
+}
+
+@keyframes hexRotate13 {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateZ(-160px) rotateY(292.5deg) rotateX(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-165px) rotateY(297deg) rotateX(5deg) rotateZ(115deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-155px) rotateY(288deg) rotateX(-5deg) rotateZ(230deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-168px) rotateY(300deg) rotateX(8deg) rotateZ(345deg);
+  }
+}
+
+@keyframes hexRotate14 {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateZ(-160px) rotateY(337.5deg) rotateX(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-162px) rotateY(342deg) rotateX(3deg) rotateZ(95deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-158px) rotateY(333deg) rotateX(-3deg) rotateZ(190deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-165deg) rotateY(345deg) rotateX(6deg) rotateZ(285deg);
+  }
+}
+
+@keyframes hexRotate15 {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateZ(-200px) rotateY(180deg) rotateX(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(-205px) rotateY(185deg) rotateX(5deg) rotateZ(90deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(-195px) rotateY(175deg) rotateX(-5deg) rotateZ(180deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(-208px) rotateY(190deg) rotateX(8deg) rotateZ(270deg);
+  }
+}
+
+/* Sphere Hexagon Circular Orbital Animation - Convergence then expansion */
+@keyframes sphereHexOrbital {
+  0% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(-120px) translateZ(150px) rotateZ(0deg);
+  }
+  12.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(45deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateX(120px) translateY(0px) translateZ(150px) rotateZ(90deg);
+  }
+  37.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(135deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(120px) translateZ(150px) rotateZ(180deg);
+  }
+  62.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(225deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateX(-120px) translateY(0px) translateZ(150px) rotateZ(270deg);
+  }
+  87.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(315deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(-120px) translateZ(150px) rotateZ(360deg);
+  }
+}
+
+@keyframes sphereHexOrbital2 {
+  0% {
+    transform: translate(-50%, -50%) translateX(85px) translateY(-85px) translateZ(-150px) rotateZ(0deg);
+  }
+  12.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(45deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateX(85px) translateY(85px) translateZ(-150px) rotateZ(90deg);
+  }
+  37.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(135deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateX(-85px) translateY(85px) translateZ(-150px) rotateZ(180deg);
+  }
+  62.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(225deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateX(-85px) translateY(-85px) translateZ(-150px) rotateZ(270deg);
+  }
+  87.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(315deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateX(85px) translateY(-85px) translateZ(-150px) rotateZ(360deg);
+  }
+}
+
+@keyframes sphereHexOrbital3 {
+  0% {
+    transform: translate(-50%, -50%) translateX(-100px) translateY(0px) translateZ(0px) rotateZ(0deg);
+  }
+  12.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(45deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(-100px) translateZ(0px) rotateZ(90deg);
+  }
+  37.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(135deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateX(100px) translateY(0px) translateZ(0px) rotateZ(180deg);
+  }
+  62.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(225deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(100px) translateZ(0px) rotateZ(270deg);
+  }
+  87.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(315deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateX(-100px) translateY(0px) translateZ(0px) rotateZ(360deg);
+  }
+}
+
+@keyframes sphereHexOrbital4 {
+  0% {
+    transform: translate(-50%, -50%) translateX(70px) translateY(70px) translateZ(0px) rotateZ(0deg);
+  }
+  12.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(45deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateX(-70px) translateY(70px) translateZ(0px) rotateZ(90deg);
+  }
+  37.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(135deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateX(-70px) translateY(-70px) translateZ(0px) rotateZ(180deg);
+  }
+  62.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(225deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateX(70px) translateY(-70px) translateZ(0px) rotateZ(270deg);
+  }
+  87.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(315deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateX(70px) translateY(70px) translateZ(0px) rotateZ(360deg);
+  }
+}
+
+@keyframes sphereHexOrbital5 {
+  0% {
+    transform: translate(-50%, -50%) translateX(140px) translateY(0px) translateZ(106px) rotateZ(0deg);
+  }
+  12.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(45deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(140px) translateZ(106px) rotateZ(90deg);
+  }
+  37.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(135deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateX(-140px) translateY(0px) translateZ(106px) rotateZ(180deg);
+  }
+  62.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(225deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(-140px) translateZ(106px) rotateZ(270deg);
+  }
+  87.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(315deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateX(140px) translateY(0px) translateZ(106px) rotateZ(360deg);
+  }
+}
+
+@keyframes sphereHexOrbital6 {
+  0% {
+    transform: translate(-50%, -50%) translateX(98px) translateY(-98px) translateZ(106px) rotateZ(0deg);
+  }
+  12.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(45deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateX(98px) translateY(98px) translateZ(106px) rotateZ(90deg);
+  }
+  37.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(135deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateX(-98px) translateY(98px) translateZ(106px) rotateZ(180deg);
+  }
+  62.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(225deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateX(-98px) translateY(-98px) translateZ(106px) rotateZ(270deg);
+  }
+  87.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(315deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateX(98px) translateY(-98px) translateZ(106px) rotateZ(360deg);
+  }
+}
+
+@keyframes sphereHexOrbital7 {
+  0% {
+    transform: translate(-50%, -50%) translateX(-130px) translateY(0px) translateZ(-106px) rotateZ(0deg);
+  }
+  12.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(45deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(-130px) translateZ(-106px) rotateZ(90deg);
+  }
+  37.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(135deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateX(130px) translateY(0px) translateZ(-106px) rotateZ(180deg);
+  }
+  62.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(225deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(130px) translateZ(-106px) rotateZ(270deg);
+  }
+  87.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(315deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateX(-130px) translateY(0px) translateZ(-106px) rotateZ(360deg);
+  }
+}
+
+@keyframes sphereHexOrbital8 {
+  0% {
+    transform: translate(-50%, -50%) translateX(92px) translateY(92px) translateZ(-106px) rotateZ(0deg);
+  }
+  12.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(45deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateX(-92px) translateY(92px) translateZ(-106px) rotateZ(90deg);
+  }
+  37.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(135deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateX(-92px) translateY(-92px) translateZ(-106px) rotateZ(180deg);
+  }
+  62.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(225deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateX(92px) translateY(-92px) translateZ(-106px) rotateZ(270deg);
+  }
+  87.5% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) translateZ(0px) rotateZ(315deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateX(92px) translateY(92px) translateZ(-106px) rotateZ(360deg);
+  }
+}
+
+/* Logo Synchronized Curved Orbital Animation */
+@keyframes logoOrbitalSync {
+  0% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateX(3px) translateY(-2px) rotateX(15deg) rotateY(45deg) rotateZ(45deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) rotateX(0deg) rotateY(90deg) rotateZ(180deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateX(3px) translateY(-2px) rotateX(15deg) rotateY(45deg) rotateZ(45deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+}
+
+/* Apply Orbital Animations to Hexagon Classes */
+.hexagon-sphere-main {
+  animation: sphereHexOrbital 70s linear infinite;
+  -webkit-animation: sphereHexOrbital 70s linear infinite;
+  -moz-animation: sphereHexOrbital 70s linear infinite;
+  -ms-animation: sphereHexOrbital 70s linear infinite;
+  -o-animation: sphereHexOrbital 70s linear infinite;
+  /* Ensure visibility */
+  opacity: 1 !important;
+  display: block !important;
+}
+
+.hexagon-sphere-orbit2 {
+  animation: sphereHexOrbital2 70s linear infinite;
+  -webkit-animation: sphereHexOrbital2 70s linear infinite;
+  -moz-animation: sphereHexOrbital2 70s linear infinite;
+  -ms-animation: sphereHexOrbital2 70s linear infinite;
+  -o-animation: sphereHexOrbital2 70s linear infinite;
+  opacity: 1 !important;
+  display: block !important;
+}
+
+.hexagon-sphere-orbit3 {
+  animation: sphereHexOrbital3 70s linear infinite;
+  -webkit-animation: sphereHexOrbital3 70s linear infinite;
+  -moz-animation: sphereHexOrbital3 70s linear infinite;
+  -ms-animation: sphereHexOrbital3 70s linear infinite;
+  -o-animation: sphereHexOrbital3 70s linear infinite;
+  opacity: 1 !important;
+  display: block !important;
+}
+
+.hexagon-sphere-orbit4 {
+  animation: sphereHexOrbital4 70s linear infinite;
+  -webkit-animation: sphereHexOrbital4 70s linear infinite;
+  -moz-animation: sphereHexOrbital4 70s linear infinite;
+  -ms-animation: sphereHexOrbital4 70s linear infinite;
+  -o-animation: sphereHexOrbital4 70s linear infinite;
+  opacity: 1 !important;
+  display: block !important;
+}
+
+.hexagon-sphere-orbit5 {
+  animation: sphereHexOrbital5 70s linear infinite;
+  -webkit-animation: sphereHexOrbital5 70s linear infinite;
+  -moz-animation: sphereHexOrbital5 70s linear infinite;
+  -ms-animation: sphereHexOrbital5 70s linear infinite;
+  -o-animation: sphereHexOrbital5 70s linear infinite;
+  opacity: 1 !important;
+  display: block !important;
+}
+
+.hexagon-sphere-orbit6 {
+  animation: sphereHexOrbital6 70s linear infinite;
+  -webkit-animation: sphereHexOrbital6 70s linear infinite;
+  -moz-animation: sphereHexOrbital6 70s linear infinite;
+  -ms-animation: sphereHexOrbital6 70s linear infinite;
+  -o-animation: sphereHexOrbital6 70s linear infinite;
+  opacity: 1 !important;
+  display: block !important;
+}
+
+.hexagon-sphere-orbit7 {
+  animation: sphereHexOrbital7 70s linear infinite;
+  -webkit-animation: sphereHexOrbital7 70s linear infinite;
+  -moz-animation: sphereHexOrbital7 70s linear infinite;
+  -ms-animation: sphereHexOrbital7 70s linear infinite;
+  -o-animation: sphereHexOrbital7 70s linear infinite;
+  opacity: 1 !important;
+  display: block !important;
+}
+
+.hexagon-sphere-orbit8 {
+  animation: sphereHexOrbital8 70s linear infinite;
+  -webkit-animation: sphereHexOrbital8 70s linear infinite;
+  -moz-animation: sphereHexOrbital8 70s linear infinite;
+  -ms-animation: sphereHexOrbital8 70s linear infinite;
+  -o-animation: sphereHexOrbital8 70s linear infinite;
+  opacity: 1 !important;
+  display: block !important;
+}
+
+.logo-in-box {
+  animation: logoOrbitalSync 14.076s linear infinite;
+  -webkit-animation: logoOrbitalSync 14.076s linear infinite;
+  -moz-animation: logoOrbitalSync 14.076s linear infinite;
+  -ms-animation: logoOrbitalSync 14.076s linear infinite;
+  -o-animation: logoOrbitalSync 14.076s linear infinite;
+}
+
+/* Override for DATA MODE logo to be bold */
+.data-mode-logo {
+  font-weight: 900 !important;
+}
+
+/* Logo Synchronized Mobile Animation with Scaling */
+@keyframes logoOrbitalSyncMobile {
+  0% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateX(3px) translateY(-2px) rotateX(15deg) rotateY(45deg) rotateZ(45deg) scale(1.1);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) rotateX(0deg) rotateY(90deg) rotateZ(180deg) scale(0.9);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateX(3px) translateY(-2px) rotateX(15deg) rotateY(45deg) rotateZ(45deg) scale(1.05);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
+  }
+}
+
+/* Mobile-specific overrides - Subtle glass with 0% opacity */
+@media (max-width: 768px) {
+  /* Mobile hexagon faces with 0% opacity glass effect */
+  .hexagon-face,
+  .hexagon-face.hexagon-face.hexagon-face {
+    background: rgba(255, 255, 255, 0) !important;
+    background-color: rgba(255, 255, 255, 0) !important;
+    background-image: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+    border-color: rgba(255, 255, 255, 0.03) !important;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05) !important;
+    filter: none !important;
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+    opacity: 0 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+  
+  /* Remove ALL hexagon patterns */
+  .hexagon-pattern,
+  .hexagon-pattern.hexagon-pattern.hexagon-pattern {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    display: none !important;
+  }
+  
+  /* Mobile hexagon sphere main with 0% opacity */
+  .hexagon-sphere-main,
+  .hexagon-sphere-main.hexagon-sphere-main.hexagon-sphere-main {
+    background: rgba(255, 255, 255, 0) !important;
+    background-color: rgba(255, 255, 255, 0) !important;
+    background-image: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+    border-color: rgba(255, 255, 255, 0.03) !important;
+    border-image: none !important;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05) !important;
+    filter: none !important;
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+    opacity: 0 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+  
+  .hexagon-sphere-orbit2,
+  .hexagon-sphere-orbit2.hexagon-sphere-orbit2.hexagon-sphere-orbit2 {
+    background: rgba(255, 255, 255, 0) !important;
+    background-color: rgba(255, 255, 255, 0) !important;
+    background-image: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+    border-color: rgba(255, 255, 255, 0.03) !important;
+    border-image: none !important;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05) !important;
+    filter: none !important;
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+    opacity: 0 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+  
+  .hexagon-sphere-orbit3,
+  .hexagon-sphere-orbit3.hexagon-sphere-orbit3.hexagon-sphere-orbit3 {
+    background: rgba(255, 255, 255, 0) !important;
+    background-color: rgba(255, 255, 255, 0) !important;
+    background-image: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+    border-color: rgba(255, 255, 255, 0.03) !important;
+    border-image: none !important;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05) !important;
+    filter: none !important;
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+    opacity: 0 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+  
+  .hexagon-sphere-orbit4,
+  .hexagon-sphere-orbit4.hexagon-sphere-orbit4.hexagon-sphere-orbit4 {
+    background: rgba(255, 255, 255, 0) !important;
+    background-color: rgba(255, 255, 255, 0) !important;
+    background-image: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+    border-color: rgba(255, 255, 255, 0.03) !important;
+    border-image: none !important;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05) !important;
+    filter: none !important;
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+    opacity: 0 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+  
+  .hexagon-sphere-orbit5,
+  .hexagon-sphere-orbit5.hexagon-sphere-orbit5.hexagon-sphere-orbit5 {
+    background: rgba(255, 255, 255, 0) !important;
+    background-color: rgba(255, 255, 255, 0) !important;
+    background-image: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+    border-color: rgba(255, 255, 255, 0.03) !important;
+    border-image: none !important;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05) !important;
+    filter: none !important;
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+    opacity: 0 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+  
+  .hexagon-sphere-orbit6,
+  .hexagon-sphere-orbit6.hexagon-sphere-orbit6.hexagon-sphere-orbit6 {
+    background: rgba(255, 255, 255, 0) !important;
+    background-color: rgba(255, 255, 255, 0) !important;
+    background-image: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+    border-color: rgba(255, 255, 255, 0.03) !important;
+    border-image: none !important;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05) !important;
+    filter: none !important;
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+    opacity: 0 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+  
+  .hexagon-sphere-orbit7,
+  .hexagon-sphere-orbit7.hexagon-sphere-orbit7.hexagon-sphere-orbit7 {
+    background: rgba(255, 255, 255, 0) !important;
+    background-color: rgba(255, 255, 255, 0) !important;
+    background-image: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+    border-color: rgba(255, 255, 255, 0.03) !important;
+    border-image: none !important;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05) !important;
+    filter: none !important;
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+    opacity: 0 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+  
+  .hexagon-sphere-orbit8,
+  .hexagon-sphere-orbit8.hexagon-sphere-orbit8.hexagon-sphere-orbit8 {
+    background: rgba(255, 255, 255, 0) !important;
+    background-color: rgba(255, 255, 255, 0) !important;
+    background-image: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+    border-color: rgba(255, 255, 255, 0.03) !important;
+    border-image: none !important;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05) !important;
+    filter: none !important;
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+    opacity: 0 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+
+  /* Keep only logo visible - remove ALL colored effects including pink background */
+  .logo-in-box,
+  .logo-in-box.logo-in-box.logo-in-box {
+    filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.5)) !important;
+    -webkit-filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.5)) !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+  }
+
+  /* Remove ALL animation effects and colors */
+  .card-float-1,
+  .card-float-2, 
+  .card-float-3,
+  .card-float-4 {
+    box-shadow: none !important;
+    animation: none !important;
+    -webkit-animation: none !important;
+    -moz-animation: none !important;
+    -ms-animation: none !important;
+    -o-animation: none !important;
+  }
+}
