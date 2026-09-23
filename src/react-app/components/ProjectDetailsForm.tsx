@@ -226,7 +226,7 @@ export default function ProjectDetailsForm({ onNavigate, onNext }: ProjectDetail
                   {urgencyOptions.map((option) => (
                     <div
                       key={option.id}
-                      onClick={() => setProjectData({...projectData, urgencyLevel: option.id as any})}
+                      onClick={() => setProjectData({...projectData, urgencyLevel: option.id as ProjectFormData['urgencyLevel']})}
                       className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
                         projectData.urgencyLevel === option.id
                           ? 'border-purple-500 bg-purple-500/10'

@@ -109,7 +109,7 @@ export default function PaymentProcess({ onNavigate }: PaymentProcessProps) {
             userData = existingUser;
             console.log('✅ Using existing user:', userData.email || userData.id);
           }
-        } catch (e) {
+        } catch {
           console.warn('❌ Could not parse existing user data, using demo user');
         }
       }
@@ -392,7 +392,7 @@ export default function PaymentProcess({ onNavigate }: PaymentProcessProps) {
         console.log('📄 Error object:', error);
         
         try {
-          const errorObj = error as any;
+          const errorObj = error as Record<string, unknown>;
           
           // Try different error properties
           if (errorObj.message && typeof errorObj.message === 'string') {
@@ -462,7 +462,7 @@ export default function PaymentProcess({ onNavigate }: PaymentProcessProps) {
   };
 
   // Simplified authentication check - always allow for demo
-  let isAuthenticated = true; // Always allow for demo mode
+  const isAuthenticated = true; // Always allow for demo mode
   
   console.log('✅ Payment Process - Demo Mode: Authentication bypassed for testing');
   

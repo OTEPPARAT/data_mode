@@ -48,7 +48,7 @@ export default function OrderSummary({ onNavigate, onNext }: OrderSummaryProps) 
   const calculateFinalPrice = () => {
     if (!selectedPackage) return 0;
     
-    let basePrice = selectedPackage.priceMin;
+    const basePrice = selectedPackage.priceMin;
     
     // Content complexity factor
     const descriptionLength = projectData.projectDescription.length;
@@ -160,7 +160,7 @@ export default function OrderSummary({ onNavigate, onNext }: OrderSummaryProps) 
     }
     
     // Check if order with same orderNumber exists
-    const orderExists = existingOrders.find((order: any) => order.orderNumber === orderData.orderNumber);
+    const orderExists = existingOrders.find((order: { orderNumber?: string }) => order.orderNumber === orderData.orderNumber);
     if (!orderExists) {
       // Add new order to the beginning of array
       existingOrders.unshift(orderData);
