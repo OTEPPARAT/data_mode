@@ -15,7 +15,8 @@ interface VideoUploadSectionProps {
   t?: (key: string) => string;
 }
 
-export default function VideoUploadSection({ }: VideoUploadSectionProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function VideoUploadSection(_props: VideoUploadSectionProps) {
   const [videos, setVideos] = useState<Video[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -93,7 +94,7 @@ export default function VideoUploadSection({ }: VideoUploadSectionProps) {
       } else {
         showNotification('error', result.error || 'เกิดข้อผิดพลาดในการอัพโหลด');
       }
-    } catch (error) {
+    } catch {
       showNotification('error', 'เกิดข้อผิดพลาดในการอัพโหลด');
     } finally {
       setIsUploading(false);
@@ -118,7 +119,7 @@ export default function VideoUploadSection({ }: VideoUploadSectionProps) {
       } else {
         showNotification('error', result.error || 'เกิดข้อผิดพลาดในการลบ');
       }
-    } catch (error) {
+    } catch {
       showNotification('error', 'เกิดข้อผิดพลาดในการลบ');
     }
   };

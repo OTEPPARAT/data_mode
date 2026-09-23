@@ -5,7 +5,7 @@ interface HeaderProps {
   currentLang: 'th' | 'en';
   onSectionChange: (section: string) => void;
   onLanguageChange: (lang: 'th' | 'en') => void;
-  translations: any;
+  translations: Record<'th' | 'en', Record<string, string>>;
 }
 export default function Header({
   activeSection,

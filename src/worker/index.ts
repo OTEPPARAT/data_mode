@@ -131,7 +131,7 @@ app.post("/api/contacts", async (c) => {
     // Handle both JSON and FormData
     const contentType = c.req.header('content-type') || '';
     let name, email, company, message;
-    let attachments: File[] = [];
+    const attachments: File[] = [];
 
     if (contentType.includes('multipart/form-data')) {
       // Handle FormData with files
@@ -142,11 +142,11 @@ app.post("/api/contacts", async (c) => {
       message = formData.get('message') as string;
 
       // Collect attachment files
-      for (const [key, value] of (formData as any).entries()) {
+      formData.forEach((value, key) => {
         if (key.startsWith('attachment_') && value instanceof File) {
           attachments.push(value);
         }
-      }
+      });
     } else {
       // Handle JSON data (backward compatibility)
       const jsonData = await c.req.json();
@@ -162,7 +162,7 @@ app.post("/api/contacts", async (c) => {
     }
 
     // Handle file uploads to R2 if any
-    let attachmentInfo = [];
+    const attachmentInfo = [];
     if (attachments.length > 0) {
       console.log(`📎 Processing ${attachments.length} attachments...`);
       
@@ -329,7 +329,7 @@ app.get("/api/contacts/:contactId/attachment", async (c) => {
       return c.json({ error: "Invalid attachment data" }, 400);
     }
 
-    const attachment = attachments.find((att: any) => att.r2Key === r2Key);
+    const attachment = attachments.find((att: { r2Key?: string }) => att.r2Key === r2Key);
     if (!attachment) {
       return c.json({ error: "Attachment not found" }, 404);
     }
@@ -814,30 +814,6 @@ app.get("/api/user/:userId/orders", async (c) => {
   } catch (error) {
     console.error("Get orders error:", error);
     return c.json({ error: "Failed to fetch orders" }, 500);
-  }
-});
-
-// Get user projects
-app.get("/api/user/:userId/projects", async (c) => {
-  try {
-    const userId = c.req.param("userId");
-
-    const projects = await c.env.DB.prepare(`
-      SELECT 
-        pr.id, pr.project_title, pr.status, pr.progress_percentage,
-        pr.created_at, pr.completed_at, pr.delivered_at,
-        p.name as package_name
-      FROM projects pr
-      JOIN packages p ON pr.package_id = p.id
-      WHERE pr.user_id = ?
-      ORDER BY pr.created_at DESC
-    `).bind(userId).all();
-
-    return c.json({ projects: projects.results });
-
-  } catch (error) {
-    console.error("Get projects error:", error);
-    return c.json({ error: "Failed to fetch projects" }, 500);
   }
 });
 

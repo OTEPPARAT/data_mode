@@ -1,11 +1,29 @@
 import { useState } from 'react';
 import { ArrowLeft, Download, Clock, DollarSign, CreditCard, Building2, Smartphone, Check, FileText } from 'lucide-react';
 
+interface QuotationOrderData {
+  projectTitle?: string;
+  projectDescription?: string;
+  projectGoals?: string;
+  specificRequirements?: string;
+  geographicScope?: string;
+  deliverableFormat?: string;
+  urgencyLevel?: 'standard' | 'priority' | 'urgent';
+  selectedPackage?: string;
+  serviceType?: string;
+  serviceTypeName?: string;
+  packageName?: string;
+  selectedPackageData?: {
+    priceMin?: number;
+    duration?: string;
+  };
+}
+
 interface QuotationViewProps {
   t: (key: string) => string;
   currentLang: 'th' | 'en';
   onNavigate: (section: string) => void;
-  orderData: any;
+  orderData: QuotationOrderData;
 }
 
 export default function QuotationView({ currentLang, onNavigate, orderData }: QuotationViewProps) {
@@ -31,8 +49,8 @@ export default function QuotationView({ currentLang, onNavigate, orderData }: Qu
     if (orderData.urgencyLevel === 'urgent') multiplier += 0.50;
     
     // Complexity based on description length and requirements
-    const descriptionComplexity = orderData.projectDescription?.length > 500 ? 0.1 : 0;
-    const requirementsComplexity = orderData.specificRequirements?.length > 200 ? 0.1 : 0;
+    const descriptionComplexity = (orderData.projectDescription?.length ?? 0) > 500 ? 0.1 : 0;
+    const requirementsComplexity = (orderData.specificRequirements?.length ?? 0) > 200 ? 0.1 : 0;
     const scopeComplexity = orderData.geographicScope?.includes('international') || 
                            orderData.geographicScope?.includes('global') ? 0.2 : 0;
     

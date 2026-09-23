@@ -82,7 +82,14 @@ export default function MemberDashboard({ t, onNavigate }: MemberDashboardProps)
       console.log('📦 Orders from backend:', data);
       
       if (data.orders && Array.isArray(data.orders)) {
-        const mappedOrders = data.orders.map((order: any) => ({
+        const mappedOrders = data.orders.map((order: {
+          id: number;
+          order_number: string;
+          package_name: string;
+          amount: number;
+          status: string;
+          created_at: string;
+        }) => ({
           id: order.id,
           orderNumber: order.order_number,
           packageName: order.package_name,
