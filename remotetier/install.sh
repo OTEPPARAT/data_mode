@@ -4,6 +4,13 @@ set -e
 SRC="$(cd "$(dirname "$0")" && pwd)"
 mkdir -p "$HOME/.remotetier"
 cp "$SRC/remotetier.sh" "$HOME/.remotetier/" && chmod +x "$HOME/.remotetier/remotetier.sh"
+# บันทึกค่าตั้งลงไฟล์ (launchd/systemd ไม่เห็น env ของเชลล์นี้)
+{
+  [ -n "${REMOTETIER_DIR:-}" ]  && printf 'REMOTETIER_DIR=%q\n'  "$REMOTETIER_DIR"
+  [ -n "${REMOTETIER_ARGS:-}" ] && printf 'REMOTETIER_ARGS=%q\n' "$REMOTETIER_ARGS"
+  [ -n "${REMOTETIER_LOG:-}" ]  && printf 'REMOTETIER_LOG=%q\n'  "$REMOTETIER_LOG"
+  true
+} > "$HOME/.remotetier/env"
 case "$(uname)" in
   Darwin)
     P="$HOME/Library/LaunchAgents/com.remotetier.agent.plist"
